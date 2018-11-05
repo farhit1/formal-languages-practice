@@ -1,10 +1,10 @@
 #include "regexp_impl.h"
 
-#include "expression/alternation.h"
-#include "expression/concatenation.h"
-#include "expression/empty.h"
-#include "expression/kleeneStar.h"
-#include "expression/letter.h"
+#include "expressions/alternation.h"
+#include "expressions/concatenation.h"
+#include "expressions/empty.h"
+#include "expressions/kleene_star.h"
+#include "expressions/letter.h"
 
 #include <stack>
 

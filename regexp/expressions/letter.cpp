@@ -16,5 +16,5 @@ Positions Letter::match(const std::string &s, size_t start) const {
     return {start + 1};
 }
 
-} // namespace expression
+} // namespace expressions
 } // namespace regexp

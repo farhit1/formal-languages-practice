@@ -33,5 +33,5 @@ protected:
     std::unique_ptr<Expression> r_;
 };
 
-} // namespace expression
+} // namespace expressions
 } // namespace regexp

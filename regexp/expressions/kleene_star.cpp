@@ -1,4 +1,4 @@
-#include "kleeneStar.h"
+#include "kleene_star.h"
 
 #include <set>
 
@@ -24,5 +24,5 @@ Positions KleeneStar::match(const std::string& s, size_t start) const {
     return result;
 }
 
-} // namespace expression
+} // namespace expressions
 } // namespace regexp

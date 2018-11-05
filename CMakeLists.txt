@@ -8,12 +8,12 @@ include_directories(/usr/local/include)
 
 set(SOURCE_FILES
         regexp/regexp_impl.cpp
-        regexp/expression/expression.cpp
-        regexp/expression/alternation.cpp
-        regexp/expression/kleeneStar.cpp
-        regexp/expression/empty.cpp
-        regexp/expression/letter.cpp
-        regexp/expression/concatenation.cpp)
+        regexp/expressions/expression.cpp
+        regexp/expressions/alternation.cpp
+        regexp/expressions/kleene_star.cpp
+        regexp/expressions/empty.cpp
+        regexp/expressions/letter.cpp
+        regexp/expressions/concatenation.cpp)
 
 add_executable(formalprac main.cpp ${SOURCE_FILES})
 add_executable(test_formalprac test.cpp ${SOURCE_FILES})

@@ -13,5 +13,5 @@ Binary::Binary(std::unique_ptr<Expression> l, std::unique_ptr<Expression> r)
         , r_(std::move(r))
 {}
 
-} // namespace expression
+} // namespace expressions
 } // namespace regexp

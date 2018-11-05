@@ -2,7 +2,7 @@
 
 #include <regexp/regexp.h>
 
-#include "expression/expression.h"
+#include "expressions/expression.h"
 
 
 namespace regexp {

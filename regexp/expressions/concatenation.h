@@ -13,5 +13,5 @@ public:
     virtual Positions match(const std::string& s, size_t start) const override;
 };
 
-} // namespace expression
+} // namespace expressions
 } // namespace regexp

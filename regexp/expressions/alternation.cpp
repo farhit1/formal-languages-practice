@@ -15,5 +15,5 @@ Positions Alternation::match(const std::string &s, size_t start) const {
     return result;
 }
 
-} // namespace expression
+} // namespace expressions
 } // namespace regexp

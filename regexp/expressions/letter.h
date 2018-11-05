@@ -16,5 +16,5 @@ private:
     char letter_;
 };
 
-} // namespace expression
+} // namespace expressions
 } // namespace regexp

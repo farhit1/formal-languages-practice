@@ -16,6 +16,6 @@ Positions Concatenation::match(const std::string& s, size_t start) const {
     return Positions(positions.begin(), positions.end());
 }
 
-} // namespace expression
+} // namespace expressions
 } // namespace regexp
 

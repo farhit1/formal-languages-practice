@@ -14,8 +14,6 @@ public:
     virtual bool has(const std::string& s) const override;
 
 private:
-    static const std::string ALPHABET_;
-
     std::unique_ptr<expressions::Expression> expression_;
 };
 

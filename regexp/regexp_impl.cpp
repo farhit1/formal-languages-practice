@@ -15,6 +15,8 @@ namespace {
 
 using StackType = std::stack<std::unique_ptr<expressions::Expression>>;
 
+const std::string ALPHABET = "abc";
+
 template<size_t ArgsN, typename Operation>
 struct Join {
     template<typename... Operations>
@@ -37,8 +39,6 @@ struct Join<0, Operation> {
 
 } // anonymous namespace
 
-const std::string RegexpImpl::ALPHABET_ = "abc";
-
 RegexpImpl::RegexpImpl(const std::string& s) {
     StackType expressionsStack;
 
@@ -57,7 +57,7 @@ RegexpImpl::RegexpImpl(const std::string& s) {
                 Join<1, expressions::KleeneStar>::impl(expressionsStack);
                 break;
             default:
-                if (ALPHABET_.find(c) == std::string::npos)
+                if (ALPHABET.find(c) == std::string::npos)
                     throw ParseError();
                 expressionsStack.push(std::make_unique<expressions::Letter>(c));
         }

@@ -35,11 +35,6 @@ struct Join<0, Operation> {
     }
 };
 
-template<typename Operation, size_t ArgsN>
-void join(StackType &stack) {
-    Join<ArgsN, Operation>::impl(stack);
-}
-
 } // anonymous namespace
 
 const std::string RegexpImpl::ALPHABET_ = "abc";
@@ -50,16 +45,16 @@ RegexpImpl::RegexpImpl(const std::string& s) {
     for (char c : s) {
         switch (c) {
             case '.':
-                join<expressions::Concatenation, 2>(expressionsStack);
+                Join<2, expressions::Concatenation>::impl(expressionsStack);
                 break;
             case '1':
                 expressionsStack.push(std::make_unique<expressions::Empty>());
                 break;
             case '+':
-                join<expressions::Alternation, 2>(expressionsStack);
+                Join<2, expressions::Alternation>::impl(expressionsStack);
                 break;
             case '*':
-                join<expressions::KleeneStar, 1>(expressionsStack);
+                Join<1, expressions::KleeneStar>::impl(expressionsStack);
                 break;
             default:
                 if (ALPHABET_.find(c) == std::string::npos)

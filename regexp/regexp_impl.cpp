@@ -48,18 +48,24 @@ RegexpImpl::RegexpImpl(const std::string& s) {
     StackType expressionsStack;
 
     for (char c : s) {
-        if (ALPHABET_.find(c) != std::string::npos)
-            expressionsStack.push(std::make_unique<expressions::Letter>(c));
-        else if (c == '.')
-            join<expressions::Concatenation, 2>(expressionsStack);
-        else if (c == '1')
-            expressionsStack.push(std::make_unique<expressions::Empty>());
-        else if (c == '+')
-            join<expressions::Alternation, 2>(expressionsStack);
-        else if (c == '*')
-            join<expressions::KleeneStar, 1>(expressionsStack);
-        else
-            throw ParseError();
+        switch (c) {
+            case '.':
+                join<expressions::Concatenation, 2>(expressionsStack);
+                break;
+            case '1':
+                expressionsStack.push(std::make_unique<expressions::Empty>());
+                break;
+            case '+':
+                join<expressions::Alternation, 2>(expressionsStack);
+                break;
+            case '*':
+                join<expressions::KleeneStar, 1>(expressionsStack);
+                break;
+            default:
+                if (ALPHABET_.find(c) == std::string::npos)
+                    throw ParseError();
+                expressionsStack.push(std::make_unique<expressions::Letter>(c));
+        }
     }
 
     if (expressionsStack.size() != 1)

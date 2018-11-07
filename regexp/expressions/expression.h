@@ -27,7 +27,7 @@ private:
 
 class UnaryExpression : public Expression {
 public:
-    explicit UnaryExpression(std::unique_ptr<Expression> enclosed, int id);
+    UnaryExpression(std::unique_ptr<Expression> enclosed, int id);
 
 protected:
     std::unique_ptr<Expression> enclosed_;

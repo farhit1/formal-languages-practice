@@ -8,7 +8,7 @@ namespace expressions {
 
 class Letter : public Expression {
 public:
-    explicit Letter(char letter, int id);
+    Letter(char letter, int id);
 
     virtual Positions match_(const std::string &s, size_t start, Cache& cache) const override;
 

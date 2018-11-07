@@ -4,7 +4,7 @@
 namespace regexp {
 namespace expressions {
 
-Positions Empty::match(const std::string &s, size_t start) const {
+Positions Empty::match_(const std::string &s, size_t start, Cache& /* cache */) const {
     return {start};
 }
 

@@ -19,8 +19,8 @@ const std::string ALPHABET = "abc";
 
 template<size_t ArgsN, typename Operation>
 struct Join {
-    template<typename... Operations>
-    static void impl(StackType &stack, Operations... operations) {
+    template<typename... Args>
+    static void impl(StackType &stack, Args... operations) {
         if (stack.empty())
             throw ParseError();
         auto operation = std::move(stack.top());
@@ -31,8 +31,8 @@ struct Join {
 
 template<typename Operation>
 struct Join<0, Operation> {
-    template<typename... Operations>
-    static void impl(StackType &stack, Operations... operations) {
+    template<typename... Args>
+    static void impl(StackType &stack, Args... operations) {
         stack.push(std::make_unique<Operation>(std::move(operations)...));
     }
 };
@@ -45,21 +45,21 @@ RegexpImpl::RegexpImpl(const std::string& s) {
     for (char c : s) {
         switch (c) {
             case '.':
-                Join<2, expressions::Concatenation>::impl(expressionsStack);
+                Join<2, expressions::Concatenation>::impl(expressionsStack, expressions_++);
                 break;
             case '1':
-                expressionsStack.push(std::make_unique<expressions::Empty>());
+                expressionsStack.push(std::make_unique<expressions::Empty>(expressions_++));
                 break;
             case '+':
-                Join<2, expressions::Alternation>::impl(expressionsStack);
+                Join<2, expressions::Alternation>::impl(expressionsStack, expressions_++);
                 break;
             case '*':
-                Join<1, expressions::KleeneStar>::impl(expressionsStack);
+                Join<1, expressions::KleeneStar>::impl(expressionsStack, expressions_++);
                 break;
             default:
                 if (ALPHABET.find(c) == std::string::npos)
                     throw ParseError();
-                expressionsStack.push(std::make_unique<expressions::Letter>(c));
+                expressionsStack.push(std::make_unique<expressions::Letter>(c, expressions_++));
         }
     }
 
@@ -68,9 +68,16 @@ RegexpImpl::RegexpImpl(const std::string& s) {
     expression_ = std::move(expressionsStack.top());
 }
 
-bool RegexpImpl::has(const std::string& s) const {
-    auto result = expression_->match(s, 0);
-    return !result.empty() && result.back() == s.length();
+bool RegexpImpl::has(const std::string& s, Cache* cache) const {
+    std::unique_ptr<Cache> ownCache;
+    if (!cache)
+        ownCache = std::make_unique<Cache>(expressions_);
+    else if (cache->empty())
+        *cache = Cache(expressions_);
+    Cache& appliedCache = (cache ? *cache : *ownCache);
+
+    auto result = expression_->match(s, 0, appliedCache);
+    return std::find(result.begin(), result.end(), s.length()) != result.end();
 }
 
 std::unique_ptr<Regexp> createRegexp(const std::string &s) {

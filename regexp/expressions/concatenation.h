@@ -6,11 +6,11 @@
 namespace regexp {
 namespace expressions {
 
-class Concatenation : public Expression, public Binary {
+class Concatenation : public BinaryExpression {
 public:
-    using Binary::Binary;
+    using BinaryExpression::BinaryExpression;
 
-    virtual Positions match(const std::string& s, size_t start) const override;
+    virtual Positions match_(const std::string& s, size_t start, Cache& cache) const override;
 };
 
 } // namespace expressions

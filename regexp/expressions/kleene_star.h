@@ -6,11 +6,11 @@
 namespace regexp {
 namespace expressions {
 
-class KleeneStar : public Expression, public Unary {
+class KleeneStar : public UnaryExpression {
 public:
-    using Unary::Unary;
+    using UnaryExpression::UnaryExpression;
 
-    virtual Positions match(const std::string &s, size_t start) const override;
+    virtual Positions match_(const std::string &s, size_t start, Cache& cache) const override;
 };
 
 } // namespace expressions

@@ -11,8 +11,10 @@ int main() {
         auto language = regexp::createRegexp(alpha);
         std::string u;
         std::cin >> u;
+
+        regexp::Cache cache;
         while (true) {
-            if (language->has(u)) {
+            if (language->has(u, &cache)) {
                 std::cout << u.length() << std::endl;
                 break;
             }

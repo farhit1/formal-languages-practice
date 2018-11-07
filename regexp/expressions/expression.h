@@ -1,5 +1,7 @@
 #pragma once
 
+#include <regexp/regexp.h>
+
 #include <string>
 #include <vector>
 
@@ -13,20 +15,27 @@ class Expression {
 public:
     virtual ~Expression() = default;
 
-    virtual Positions match(const std::string &s, size_t start) const = 0;
+    explicit Expression(int id);
+
+    Positions match(const std::string &s, size_t start, Cache& cache) const;
+
+private:
+    virtual Positions match_(const std::string &s, size_t start, Cache& cache) const = 0;
+
+    int id_;
 };
 
-class Unary {
+class UnaryExpression : public Expression {
 public:
-    explicit Unary(std::unique_ptr<Expression> enclosed);
+    explicit UnaryExpression(std::unique_ptr<Expression> enclosed, int id);
 
 protected:
     std::unique_ptr<Expression> enclosed_;
 };
 
-class Binary {
+class BinaryExpression : public Expression {
 public:
-    Binary(std::unique_ptr<Expression> l, std::unique_ptr<Expression> r);
+    BinaryExpression(std::unique_ptr<Expression> l, std::unique_ptr<Expression> r, int id);
 
 protected:
     std::unique_ptr<Expression> l_;

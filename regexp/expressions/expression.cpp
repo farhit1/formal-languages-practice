@@ -16,7 +16,7 @@ Positions Expression::match(const std::string &s, size_t start, Cache& cache) co
 }
 
 UnaryExpression::UnaryExpression(std::unique_ptr<Expression> enclosed, int id)
-        : enclosed_ (std::move(enclosed))
+        : enclosed_(std::move(enclosed))
         , Expression(id)
 {}
 

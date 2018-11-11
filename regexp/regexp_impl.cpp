@@ -13,7 +13,8 @@ namespace regexp {
 
 namespace {
 
-using StackType = std::stack<std::unique_ptr<expressions::Expression>>;
+using namespace expressions;
+using StackType = std::stack<std::unique_ptr<Expression>>;
 
 const std::string ALPHABET = "abc";
 
@@ -45,21 +46,21 @@ RegexpImpl::RegexpImpl(const std::string& s) {
     for (char c : s) {
         switch (c) {
             case '.':
-                Join<2, expressions::Concatenation>::impl(expressionsStack, expressions_++);
+                Join<2, Concatenation>::impl(expressionsStack, expressions_++);
                 break;
             case '1':
-                expressionsStack.push(std::make_unique<expressions::Empty>(expressions_++));
+                expressionsStack.push(std::make_unique<Empty>(expressions_++));
                 break;
             case '+':
-                Join<2, expressions::Alternation>::impl(expressionsStack, expressions_++);
+                Join<2, Alternation>::impl(expressionsStack, expressions_++);
                 break;
             case '*':
-                Join<1, expressions::KleeneStar>::impl(expressionsStack, expressions_++);
+                Join<1, KleeneStar>::impl(expressionsStack, expressions_++);
                 break;
             default:
                 if (ALPHABET.find(c) == std::string::npos)
                     throw ParseError();
-                expressionsStack.push(std::make_unique<expressions::Letter>(c, expressions_++));
+                expressionsStack.push(std::make_unique<Letter>(c, expressions_++));
         }
     }
 

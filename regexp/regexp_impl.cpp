@@ -69,15 +69,16 @@ RegexpImpl::RegexpImpl(const std::string& s) {
     expression_ = std::move(expressionsStack.top());
 }
 
-bool RegexpImpl::has(const std::string& s, Cache* cache) const {
-    std::unique_ptr<Cache> ownCache;
-    if (!cache)
-        ownCache = std::make_unique<Cache>(expressions_);
-    else if (cache->empty())
-        *cache = Cache(expressions_);
-    Cache& appliedCache = (cache ? *cache : *ownCache);
+bool RegexpImpl::has(const std::string& s) const {
+    Cache ownCache;
+    return has(s, &ownCache);
+}
 
-    auto result = expression_->match(s, 0, appliedCache);
+bool RegexpImpl::has(const std::string& s, Cache* cache) const {
+    if (cache->empty())
+        *cache = Cache(expressions_);
+
+    auto result = expression_->match(s, 0, *cache);
     return std::find(result.begin(), result.end(), s.length()) != result.end();
 }
 

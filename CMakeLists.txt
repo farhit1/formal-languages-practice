@@ -17,5 +17,6 @@ set(SOURCE_FILES
 
 add_executable(formalprac main.cpp ${SOURCE_FILES})
 add_executable(test_formalprac test.cpp ${SOURCE_FILES})
+add_executable(singlefile singlefile.cpp)
 
 target_link_libraries(test_formalprac /usr/local/lib/libgtest.a /usr/local/lib/libgtest_main.a)

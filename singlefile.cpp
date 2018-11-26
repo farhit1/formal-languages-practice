@@ -1,4 +1,6 @@
+#include <algorithm>
 #include <iostream>
+#include <memory>
 #include <set>
 #include <stack>
 #include <string>

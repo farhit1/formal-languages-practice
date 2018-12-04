@@ -11,7 +11,7 @@ python3 main.py
 
 The first line should contain the number of rules in the grammar, *N*.
 Lines *2, ..., N+1* should contain rules.
-The *N+2*th line should contain the number of words to be checked, *M*.
+Line *N+2* should contain the number of words to be checked, *M*.
 Lines *N+3, ..., N+M+2* should contain these words.
 
 ### Output format
@@ -50,3 +50,7 @@ cdcdba
 cccdab
 ```
 Output: [pdf](samples/sample2.pdf) | [tex](samples/sample2.tex)
+
+### Note
+
+If rule is <img src="https://latex.codecogs.com/gif.latex?D\rightarrow\varepsilon" /> both `D->` and `D->ε` are allowed.

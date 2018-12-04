@@ -9,7 +9,7 @@ python3 main.py
 
 ### Input format
 
-The first line should contain the number of rules in grammar, *N*.
+The first line should contain the number of rules in the grammar, *N*.
 Lines *2, ..., N+1* should contain rules.
 The *N+2*th line should contain the number of words to be checked, *M*.
 Lines *N+3, ..., N+M+2* should contain these words.
@@ -32,7 +32,7 @@ D->
 cabcaabb
 ccabab
 ```
-Outputs: [pdf](samples/sample1.pdf) | [tex](samples/sample1.tex)
+Output: [pdf](samples/sample1.pdf) | [tex](samples/sample1.tex)
 
 ### Sample 2
 
@@ -49,4 +49,4 @@ D->ε
 cdcdba
 cccdab
 ```
-Outputs: [pdf](samples/sample2.pdf) | [tex](samples/sample2.tex)
+Output: [pdf](samples/sample2.pdf) | [tex](samples/sample2.tex)

@@ -1,0 +1,116 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{textcomp}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+
+\begin{document}
+
+\section*{Грамматика}
+
+\begin{enumerate}
+\setcounter{enumi}{-1}
+\item $S' \rightarrow S$
+\item $S \rightarrow Sa$
+\item $S \rightarrow C$
+\item $S \rightarrow SSb$
+\item $C \rightarrow Dd$
+\item $D \rightarrow cD$
+\item $D \rightarrow \varepsilon$
+\end{enumerate}
+
+\section*{Таблица переходов}
+
+$Follow(C) = \{ \$, a, b, c, d \}$
+
+$Follow(D) = \{ d \}$
+
+$Follow(S) = \{ \$, a, b, c, d \}$
+
+$Follow(S') = \{ \$ \}$
+
+\bigbreak
+
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+\textnumero & Правило & $a$ & $b$ & $c$ & $d$ & $\$$ & $\varepsilon$ & $C$ & $D$ & $S$\\ \hline
+0 & $S' \rightarrow  \cdot S$ &  &  & \textcolor{red}{$15$} & \textcolor{red}{$r_6$} &  & $2$, $5$, $7$ & \textcolor{red}{$6$} & \textcolor{red}{$12$} & $1$\\ \hline
+1 & $S' \rightarrow S \cdot $ & \textcolor{red}{$4$} &  & \textcolor{red}{$15$} & \textcolor{red}{$r_6$} & $r_0$ &  & \textcolor{red}{$6$} & \textcolor{red}{$12$} & \textcolor{red}{$9$}\\ \hline
+2 & $S \rightarrow  \cdot Sa$ &  &  & \textcolor{red}{$15$} & \textcolor{red}{$r_6$} &  & $2$, $5$, $7$ & \textcolor{red}{$6$} & \textcolor{red}{$12$} & $3$\\ \hline
+3 & $S \rightarrow S \cdot a$ & $4$ & \textcolor{red}{$10$} & \textcolor{red}{$15$} & \textcolor{red}{$r_6$} & \textcolor{red}{$r_0$} &  & \textcolor{red}{$6$} & \textcolor{red}{$12$} & \textcolor{red}{$9$}\\ \hline
+4 & $S \rightarrow Sa \cdot $ & $r_1$ & $r_1$ & $r_1$ & $r_1$ & $r_1$ &  &  &  & \\ \hline
+5 & $S \rightarrow  \cdot C$ &  &  & \textcolor{red}{$15$} & \textcolor{red}{$r_6$} &  & $11$ & $6$ & \textcolor{red}{$12$} & \\ \hline
+6 & $S \rightarrow C \cdot $ & $r_2$ & $r_2$ & $r_2$ & $r_2$ & $r_2$ &  &  &  & \\ \hline
+7 & $S \rightarrow  \cdot SSb$ &  &  & \textcolor{red}{$15$} & \textcolor{red}{$r_6$} &  & $2$, $5$, $7$ & \textcolor{red}{$6$} & \textcolor{red}{$12$} & $8$\\ \hline
+8 & $S \rightarrow S \cdot Sb$ & \textcolor{red}{$4$} & \textcolor{red}{$10$} & \textcolor{red}{$15$} & \textcolor{red}{$r_6$} & \textcolor{red}{$r_0$} & $2$, $5$, $7$ & \textcolor{red}{$6$} & \textcolor{red}{$12$} & $9$\\ \hline
+9 & $S \rightarrow SS \cdot b$ & \textcolor{red}{$4$} & $10$ & \textcolor{red}{$15$} & \textcolor{red}{$r_6$} & \textcolor{red}{$r_0$} &  & \textcolor{red}{$6$} & \textcolor{red}{$12$} & \textcolor{red}{$9$}\\ \hline
+10 & $S \rightarrow SSb \cdot $ & $r_3$ & $r_3$ & $r_3$ & $r_3$ & $r_3$ &  &  &  & \\ \hline
+11 & $C \rightarrow  \cdot Dd$ &  &  & \textcolor{red}{$15$} & \textcolor{red}{$r_6$} &  & $14$, $17$ &  & $12$ & \\ \hline
+12 & $C \rightarrow D \cdot d$ &  &  &  & $13$ &  &  &  &  & \\ \hline
+13 & $C \rightarrow Dd \cdot $ & $r_4$ & $r_4$ & $r_4$ & $r_4$ & $r_4$ &  &  &  & \\ \hline
+14 & $D \rightarrow  \cdot cD$ &  &  & $15$ &  &  &  &  &  & \\ \hline
+15 & $D \rightarrow c \cdot D$ &  &  & \textcolor{red}{$15$} & \textcolor{red}{$r_6$} &  & $14$, $17$ &  & $16$ & \\ \hline
+16 & $D \rightarrow cD \cdot $ &  &  &  & $r_5$ &  &  &  &  & \\ \hline
+17 & $D \rightarrow  \cdot $ &  &  &  & $r_6$ &  &  &  &  & \\ \hline
+\end{tabular}
+
+\bigbreak
+
+\textcolor{red}{Красным} обозначены переходы, появившиеся после устранения $\varepsilon$-переходов.
+
+\section*{Разбор \textit{cdcdba}}
+
+\begin{tabular}{|l|l|l|}
+\hline
+Индекс & Символ & Стек\\ \hline
+ &  & 0\\ \hline
+0 & $c$ & $0$ $c$ $15$\\ \hline
+1 & $d$ & $0$ $c$ $15$ $D$ $16$\\ \hline
+ & $d$ & $0$ $D$ $12$\\ \hline
+ & $d$ & $0$ $D$ $12$ $d$ $13$\\ \hline
+2 & $c$ & $0$ $C$ $6$\\ \hline
+ & $c$ & $0$ $S$ $1$\\ \hline
+ & $c$ & $0$ $S$ $1$ $c$ $15$\\ \hline
+3 & $d$ & $0$ $S$ $1$ $c$ $15$ $D$ $16$\\ \hline
+ & $d$ & $0$ $S$ $1$ $D$ $12$\\ \hline
+ & $d$ & $0$ $S$ $1$ $D$ $12$ $d$ $13$\\ \hline
+4 & $b$ & $0$ $S$ $1$ $C$ $6$\\ \hline
+ & $b$ & $0$ $S$ $1$ $S$ $9$\\ \hline
+ & $b$ & $0$ $S$ $1$ $S$ $9$ $b$ $10$\\ \hline
+5 & $a$ & $0$ $S$ $1$\\ \hline
+ & $a$ & $0$ $S$ $1$ $a$ $4$\\ \hline
+6 & $\$$ & $0$ $S$ $1$\\ \hline
+\end{tabular}
+
+\bigbreak
+
+Вердикт: \textbf{\textcolor{green}{входит}}
+
+\section*{Разбор \textit{cccdab}}
+
+\begin{tabular}{|l|l|l|}
+\hline
+Индекс & Символ & Стек\\ \hline
+ &  & 0\\ \hline
+0 & $c$ & $0$ $c$ $15$\\ \hline
+1 & $c$ & $0$ $c$ $15$ $c$ $15$\\ \hline
+2 & $c$ & $0$ $c$ $15$ $c$ $15$ $c$ $15$\\ \hline
+3 & $d$ & $0$ $c$ $15$ $c$ $15$ $c$ $15$ $D$ $16$\\ \hline
+ & $d$ & $0$ $c$ $15$ $c$ $15$ $D$ $16$\\ \hline
+ & $d$ & $0$ $c$ $15$ $D$ $16$\\ \hline
+ & $d$ & $0$ $D$ $12$\\ \hline
+ & $d$ & $0$ $D$ $12$ $d$ $13$\\ \hline
+4 & $a$ & $0$ $C$ $6$\\ \hline
+ & $a$ & $0$ $S$ $1$\\ \hline
+ & $a$ & $0$ $S$ $1$ $a$ $4$\\ \hline
+5 & $b$ & $0$ $S$ $1$\\ \hline
+\end{tabular}
+
+\bigbreak
+
+Вердикт: \textbf{\textcolor{red}{не входит}}
+
+\end{document}

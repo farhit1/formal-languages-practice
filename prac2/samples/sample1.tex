@@ -1,0 +1,109 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{textcomp}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+
+\begin{document}
+
+\section*{Грамматика}
+
+\begin{enumerate}
+\setcounter{enumi}{-1}
+\item $S' \rightarrow S$
+\item $S \rightarrow C$
+\item $S \rightarrow SC$
+\item $C \rightarrow cD$
+\item $D \rightarrow aDb$
+\item $D \rightarrow \varepsilon$
+\end{enumerate}
+
+\section*{Таблица переходов}
+
+$Follow(C) = \{ \$, c \}$
+
+$Follow(D) = \{ \$, b, c \}$
+
+$Follow(S) = \{ \$, c \}$
+
+$Follow(S') = \{ \$ \}$
+
+\bigbreak
+
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+\hline
+\textnumero & Правило & $a$ & $b$ & $c$ & $\$$ & $\varepsilon$ & $C$ & $D$ & $S$\\ \hline
+0 & $S' \rightarrow  \cdot S$ &  &  & \textcolor{red}{$8$} &  & $2$, $4$ & \textcolor{red}{$3$} &  & $1$\\ \hline
+1 & $S' \rightarrow S \cdot $ &  &  & \textcolor{red}{$8$} & $r_0$ &  & \textcolor{red}{$6$} &  & \\ \hline
+2 & $S \rightarrow  \cdot C$ &  &  & \textcolor{red}{$8$} &  & $7$ & $3$ &  & \\ \hline
+3 & $S \rightarrow C \cdot $ &  &  & $r_1$ & $r_1$ &  &  &  & \\ \hline
+4 & $S \rightarrow  \cdot SC$ &  &  & \textcolor{red}{$8$} &  & $2$, $4$ & \textcolor{red}{$3$} &  & $5$\\ \hline
+5 & $S \rightarrow S \cdot C$ &  &  & \textcolor{red}{$8$} & \textcolor{red}{$r_0$} & $7$ & $6$ &  & \\ \hline
+6 & $S \rightarrow SC \cdot $ &  &  & $r_2$ & $r_2$ &  &  &  & \\ \hline
+7 & $C \rightarrow  \cdot cD$ &  &  & $8$ &  &  &  &  & \\ \hline
+8 & $C \rightarrow c \cdot D$ & \textcolor{red}{$11$} & \textcolor{red}{$r_5$} & \textcolor{red}{$r_5$} & \textcolor{red}{$r_5$} & $10$, $14$ &  & $9$ & \\ \hline
+9 & $C \rightarrow cD \cdot $ &  &  & $r_3$ & $r_3$ &  &  &  & \\ \hline
+10 & $D \rightarrow  \cdot aDb$ & $11$ &  &  &  &  &  &  & \\ \hline
+11 & $D \rightarrow a \cdot Db$ & \textcolor{red}{$11$} & \textcolor{red}{$r_5$} & \textcolor{red}{$r_5$} & \textcolor{red}{$r_5$} & $10$, $14$ &  & $12$ & \\ \hline
+12 & $D \rightarrow aD \cdot b$ &  & $13$ &  &  &  &  &  & \\ \hline
+13 & $D \rightarrow aDb \cdot $ &  & $r_4$ & $r_4$ & $r_4$ &  &  &  & \\ \hline
+14 & $D \rightarrow  \cdot $ &  & $r_5$ & $r_5$ & $r_5$ &  &  &  & \\ \hline
+\end{tabular}
+
+\bigbreak
+
+\textcolor{red}{Красным} обозначены переходы, появившиеся после устранения $\varepsilon$-переходов.
+
+\section*{Разбор \textit{cabcaabb}}
+
+\begin{tabular}{|l|l|l|}
+\hline
+Индекс & Символ & Стек\\ \hline
+ &  & 0\\ \hline
+0 & $c$ & $0$ $c$ $8$\\ \hline
+1 & $a$ & $0$ $c$ $8$ $a$ $11$\\ \hline
+2 & $b$ & $0$ $c$ $8$ $a$ $11$ $D$ $12$\\ \hline
+ & $b$ & $0$ $c$ $8$ $a$ $11$ $D$ $12$ $b$ $13$\\ \hline
+3 & $c$ & $0$ $c$ $8$ $D$ $9$\\ \hline
+ & $c$ & $0$ $C$ $3$\\ \hline
+ & $c$ & $0$ $S$ $1$\\ \hline
+ & $c$ & $0$ $S$ $1$ $c$ $8$\\ \hline
+4 & $a$ & $0$ $S$ $1$ $c$ $8$ $a$ $11$\\ \hline
+5 & $a$ & $0$ $S$ $1$ $c$ $8$ $a$ $11$ $a$ $11$\\ \hline
+6 & $b$ & $0$ $S$ $1$ $c$ $8$ $a$ $11$ $a$ $11$ $D$ $12$\\ \hline
+ & $b$ & $0$ $S$ $1$ $c$ $8$ $a$ $11$ $a$ $11$ $D$ $12$ $b$ $13$\\ \hline
+7 & $b$ & $0$ $S$ $1$ $c$ $8$ $a$ $11$ $D$ $12$\\ \hline
+ & $b$ & $0$ $S$ $1$ $c$ $8$ $a$ $11$ $D$ $12$ $b$ $13$\\ \hline
+8 & $\$$ & $0$ $S$ $1$ $c$ $8$ $D$ $9$\\ \hline
+ & $\$$ & $0$ $S$ $1$ $C$ $6$\\ \hline
+ & $\$$ & $0$ $S$ $1$\\ \hline
+\end{tabular}
+
+\bigbreak
+
+Вердикт: \textbf{\textcolor{green}{входит}}
+
+\section*{Разбор \textit{ccabab}}
+
+\begin{tabular}{|l|l|l|}
+\hline
+Индекс & Символ & Стек\\ \hline
+ &  & 0\\ \hline
+0 & $c$ & $0$ $c$ $8$\\ \hline
+1 & $c$ & $0$ $c$ $8$ $D$ $9$\\ \hline
+ & $c$ & $0$ $C$ $3$\\ \hline
+ & $c$ & $0$ $S$ $1$\\ \hline
+ & $c$ & $0$ $S$ $1$ $c$ $8$\\ \hline
+2 & $a$ & $0$ $S$ $1$ $c$ $8$ $a$ $11$\\ \hline
+3 & $b$ & $0$ $S$ $1$ $c$ $8$ $a$ $11$ $D$ $12$\\ \hline
+ & $b$ & $0$ $S$ $1$ $c$ $8$ $a$ $11$ $D$ $12$ $b$ $13$\\ \hline
+\end{tabular}
+
+\bigbreak
+
+Вердикт: \textbf{\textcolor{red}{не входит}}
+
+\end{document}

@@ -1,6 +1,6 @@
 # Formal languages practice
 
-Generate tex-code of checking whether grammar contains word using LR-parser.
+Generate tex-code for checking whether grammar contains word using LR-parser.
 
 ### Launch
 ```
